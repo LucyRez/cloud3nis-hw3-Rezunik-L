@@ -65,9 +65,7 @@ const EditNote = ({route, navigation}) => {
               <TextInput style={styles.title} placeholder={"Title here..."} value={title} onChangeText={t => setTitle(t)}/>
             </KeyboardAvoidingView>
             
-            <ScrollView horizontal={true}>
-             {image && <Image source={{ uri: image }} style={{width:200, height: 200, margin: 10,}}/>}
-            </ScrollView>
+             {image && <Image source={{ uri: image }} style={{width:200, height: 200, margin: 10, alignSelf: 'center'}}/>}
             
             <Button title='Pick an image' onPress={pickImage}/>
             
