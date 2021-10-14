@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
-
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, SafeAreaView, KeyboardAvoidingView, Image, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const EditNote = ({route, navigation}) => {
 
     const [note, setNote] = useState();
     const [title, setTitle] = useState();
+    const [image, setImage] = useState();
 
     React.useEffect(() => {
         if (route.params?.item){
@@ -14,6 +15,7 @@ const EditNote = ({route, navigation}) => {
             console.log(route.params.item)
             setNote(route.params.item.text)
             setTitle(route.params.item.title)
+            setImage(route.params.item.image)
         }
     }, [route.params?.item]);
 
@@ -35,6 +37,7 @@ const EditNote = ({route, navigation}) => {
     return(
         <View style={styles.container}>
         <SafeAreaView>
+         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.headerWrapper}>
                 <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <View style={styles.buttonWrapper}>
@@ -47,7 +50,7 @@ const EditNote = ({route, navigation}) => {
                     console.log(title)
                     navigation.navigate({
                         name: 'Home',
-                        params: {note: note, id: route.params.item.id, title: title, edit: true},
+                        params: {note: note, id: route.params.item.id, title: title, image: image, edit: true},
                         merge: true,
                     });
                     }}>
@@ -61,10 +64,18 @@ const EditNote = ({route, navigation}) => {
             <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"}>
               <TextInput style={styles.title} placeholder={"Title here..."} value={title} onChangeText={t => setTitle(t)}/>
             </KeyboardAvoidingView>
+            
+            <ScrollView horizontal={true}>
+             {image && <Image source={{ uri: image }} style={{width:200, height: 200, margin: 10,}}/>}
+            </ScrollView>
+            
+            <Button title='Pick an image' onPress={pickImage}/>
+            
 
             <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"}>
               <TextInput style={styles.noteInput} placeholder={"Write a note here..."} multiline={true} value={note} onChangeText={text => setNote(text)}/>
             </KeyboardAvoidingView>
+            </ScrollView>
         </SafeAreaView>
         </View>
     )
@@ -72,7 +83,7 @@ const EditNote = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
    container:{
-     flex: 0.3,
+     flex: 1,
      margin: 20,
      padding: 10,
    }, 

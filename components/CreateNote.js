@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, KeyboardAvoidingView, Button, Image } from 'react-native';
 import nextId from "react-id-generator";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -7,6 +7,7 @@ const CreateNote = ({route, navigation}) => {
 
     const [note, setNote] = useState();
     const [title, setTitle] = useState();
+    const [image, setImage] = useState();
 
     React.useEffect(() => {
       (async () => {
@@ -35,8 +36,10 @@ const CreateNote = ({route, navigation}) => {
     };
 
     return(
+
         <View style={styles.container}>
-        <SafeAreaView>
+        <SafeAreaView >
+        <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.headerWrapper}>
                 <TouchableOpacity onPress={()=>navigation.goBack()}>
                     <View style={styles.buttonWrapper}>
@@ -47,7 +50,7 @@ const CreateNote = ({route, navigation}) => {
                 <TouchableOpacity onPress={()=>{
                     navigation.navigate({
                         name: 'Home',
-                        params: {note: note, id: nextId(), title: title, edit: false},
+                        params: {note: note, id: nextId(), title: title, image: image, edit: false},
                         merge: true,
                     });
                     }}>
@@ -62,17 +65,26 @@ const CreateNote = ({route, navigation}) => {
               <TextInput style={styles.title} placeholder={"Title here..."} value={title} onChangeText={text => setTitle(text)}/>
             </KeyboardAvoidingView>
 
+            <ScrollView horizontal={true}>
+             {image && <Image source={{ uri: image }} style={{width:200, height: 200, margin: 10,}}/>}
+            </ScrollView>
+            <Button title='Pick an image' onPress={pickImage}/>
+            
+
+            
             <KeyboardAvoidingView  behavior={Platform.OS === "ios" ? "padding" : "height"}>
               <TextInput style={styles.noteInput} placeholder={"Write a note here..."} multiline={true} value={note} onChangeText={text => setNote(text)}/>
             </KeyboardAvoidingView>
+            </ScrollView>
         </SafeAreaView>
         </View>
+        
     )
 }
 
 const styles = StyleSheet.create({
    container:{
-     flex: 0.3,
+     flex: 1,
      margin: 20,
      padding: 10,
    }, 

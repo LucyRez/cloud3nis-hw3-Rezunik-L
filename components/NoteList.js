@@ -8,21 +8,23 @@ const NoteList = ({navigation, route}) => {
 
     const [noteItems, setNoteItems] = useState([]);
 
-    const handleAddNote = (note, id, title) => {
+    const handleAddNote = (note, id, title, image) => {
         let newNote = {
             id: id,
             text: note,
             title: title,
+            image: image,
             time: new Date().toLocaleString(),
         };
         setNoteItems([...noteItems, newNote])
     }
 
-    const handleEditNote = (note, id, title) => {
+    const handleEditNote = (note, id, title, image) => {
         let editedNote = {
             id: id,
             text: note, 
             title: title,
+            image: image,
             time: new Date().toLocaleString(),
         }
 
@@ -45,15 +47,15 @@ const NoteList = ({navigation, route}) => {
     }
     
     React.useEffect(() => {
-        if (route.params?.note || route.params?.title){
+        if (route.params?.note || route.params?.title || route.params?.image){
             if(route.params?.edit){
-                handleEditNote(route.params?.note, route.params?.id, route.params?.title)
+                handleEditNote(route.params?.note, route.params?.id, route.params?.title, route.params?.image)
             }else{
-                handleAddNote(route.params?.note, route.params?.id, route.params?.title)
+                handleAddNote(route.params?.note, route.params?.id, route.params?.title, route.params?.image)
             }
             console.log(route.params.note)
         }
-    }, [route.params?.note, route.params?.title]);
+    }, [route.params?.note, route.params?.title, route.params?.image]);
 
     return(
 
@@ -117,8 +119,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     buttonText:{
-      fontSize: 45,
+      fontSize: 40,
       color: 'white',
+      alignSelf: 'center',
     },
   });
 
