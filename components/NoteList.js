@@ -8,21 +8,26 @@ const NoteList = ({navigation, route}) => {
 
     const [noteItems, setNoteItems] = useState([]);
 
-    const handleAddNote = (note, id) => {
+    const handleAddNote = (note, id, title) => {
         let newNote = {
             id: id,
             text: note,
+            title: title,
             time: new Date().toLocaleString(),
         };
         setNoteItems([...noteItems, newNote])
     }
 
-    const handleEditNote = (note, id) => {
+    const handleEditNote = (note, id, title) => {
         let editedNote = {
             id: id,
             text: note, 
+            title: title,
             time: new Date().toLocaleString(),
         }
+
+        console.log("info")
+        console.log(editedNote)
 
         const index = noteItems.findIndex(
             (item) => item.id === editedNote.id
@@ -40,15 +45,15 @@ const NoteList = ({navigation, route}) => {
     }
     
     React.useEffect(() => {
-        if (route.params?.note){
+        if (route.params?.note || route.params?.title){
             if(route.params?.edit){
-                handleEditNote(route.params?.note, route.params?.id)
+                handleEditNote(route.params?.note, route.params?.id, route.params?.title)
             }else{
-                handleAddNote(route.params?.note, route.params?.id)
+                handleAddNote(route.params?.note, route.params?.id, route.params?.title)
             }
             console.log(route.params.note)
         }
-    }, [route.params?.note]);
+    }, [route.params?.note, route.params?.title]);
 
     return(
 
@@ -57,14 +62,14 @@ const NoteList = ({navigation, route}) => {
         <ScrollView>
           <View style={styles.notesContainer}>
              <Note text="Lets add a very long note to check what's going to happen if i can't fit all the text in one row"
-              time = {new Date().toLocaleString()}/>
+              title = {new Date().toLocaleString()}/>
              {noteItems.map((item, index) => {
                  return (
                      <TouchableOpacity key={index} onPress={()=> navigation.navigate('Edit', {
                         item: item,
                      })
                      }>
-                         <Note text={item.text} time={item.time}></Note>   
+                         <Note text={item.text} title={item.title}></Note>   
                      </TouchableOpacity>
                  )
              })

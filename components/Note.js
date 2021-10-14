@@ -5,7 +5,7 @@ const Note = (props) => {
 
     return(
         <View style={styles.noteWrapper}>
-            <Text style={styles.noteTitle}>{props.time}</Text>
+            <Text style={styles.noteTitle}>{props.title}</Text>
             <Text style={styles.noteText}>{props.text}</Text>
         </View>
     )
