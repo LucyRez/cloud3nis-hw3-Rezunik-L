@@ -32,9 +32,6 @@ const NoteList = ({ navigation, route }) => {
       time: new Date().toLocaleString(),
     };
 
-    console.log("info");
-    console.log(editedNote);
-
     const index = noteItems.findIndex((item) => item.id === editedNote.id);
 
     const newNotes = [...noteItems];
@@ -64,7 +61,6 @@ const NoteList = ({ navigation, route }) => {
           route.params?.image
         );
       }
-      console.log(route.params.note);
     }
   }, [route.params?.note, route.params?.title, route.params?.image]);
 
@@ -72,10 +68,6 @@ const NoteList = ({ navigation, route }) => {
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.notesContainer}>
-          <Note
-            text="Lets add a very long note to check what's going to happen if i can't fit all the text in one row"
-            title={new Date().toLocaleString()}
-          />
           {noteItems.map((item, index) => {
             return (
               <TouchableOpacity
