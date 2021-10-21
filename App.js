@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Button,
+  Keyboard,
+} from "react-native";
+
+import NoteList from "./components/NoteList";
+import CreateNote from "./components/CreateNote";
+import EditNote from "./components/EditNote";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={NoteList}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Create Note"
+          component={CreateNote}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Edit"
+          component={EditNote}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
